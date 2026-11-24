@@ -6,17 +6,10 @@
 - **Target Hostinger Server:** `167.88.47.8`
 - **SSH Port:** `65002` *(Standard port 22 is closed on Hostinger)*
 - **SSH User:** `u420563260`
-- **Hostinger Target Path:** `domains/etotalsports.com/public_html/`
-- **Live WP Core Version:** `WordPress 6.5.14` (PHP 8.1.34)
-- **Admin Email:** `mosharaf@webtricker.com`
-- **Current Theme:** `electro` (version 3.3.16)
-- **Live Content State:**
-  - Front page set to page ID 5202 (`home v7 el`) displaying Electro demo elements ("Welcome to Worldwide Electronics Store")
-  - 39 pages total (demo variations from Electro theme: Home v1-v13, Electro Shop, Wishlist, FAQ, etc.)
-  - 2 test posts (`Coronavirus disease 2019`, `Test Post`)
-  - No WooCommerce tables or plugins active currently
-  - Active plugins: `fileorganizer` (inactive: `event`, `event-extras`, `wp_sucuri`)
-  - Uploads folder: 9.7 MB of Electro demo assets
+- **Backend Admin & API URL:** `https://admin.etotalsports.com`
+- **Frontend Storefront URL:** `https://etotalsports.com` (pointed to Vercel)
+- **Hostinger Target Path (WP Backend):** `domains/etotalsports.com/public_html/admin/`
+- **Live WP Core Version:** Clean WordPress install (PHP 8.3)
 - **SSH Key Pair:** Uses `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub` on this PC (`Lenovo Yoga 730`).
 
 ---
@@ -30,9 +23,9 @@ ssh etotalsports
 ssh hostinger
 ```
 
-Direct command example:
+Direct WP-CLI command example for the active backend:
 ```bash
-ssh etotalsports "wp --path=domains/etotalsports.com/public_html core version"
+ssh etotalsports "wp --path=domains/etotalsports.com/public_html/admin core version"
 ```
 
 ---
@@ -40,7 +33,7 @@ ssh etotalsports "wp --path=domains/etotalsports.com/public_html core version"
 ## 3. GitHub & Deployment Architecture
 
 - **GitHub Account:** `harunr` (`md.rashidh@gmail.com`)
-- **Remote URL:** `https://github.com/harunr/etotalsports-wp.git` (or `etotalsports.git`)
+- **Remote URL:** `https://github.com/harunr/etotalsports.git`
 - **CI/CD:** GitHub Actions on push to `master`/`main`
 
 ### GitHub Secrets Required in Repository:
@@ -59,7 +52,7 @@ ssh etotalsports "wp --path=domains/etotalsports.com/public_html core version"
 3. **LiteSpeed Cache Purge:**
    - Always purge LiteSpeed cache after deployment:
      ```bash
-     ssh etotalsports "wp --path=domains/etotalsports.com/public_html litespeed-purge all || true"
+     ssh etotalsports "wp --path=domains/etotalsports.com/public_html/admin litespeed-purge all || true"
      ```
 4. **Database Backups:**
    - Hostinger restricts `exec`, `shell_exec` in PHP (making `wp db export` fail).
@@ -69,6 +62,6 @@ ssh etotalsports "wp --path=domains/etotalsports.com/public_html core version"
 
 ## 4. Headless CMS Roadmap
 
-- **Status:** Initial architecture verified. Full website design will be provided by the user before frontend build begins.
-- **Backend:** WordPress REST API / Headless integration on Hostinger (`domains/etotalsports.com/public_html/`).
+- **Status:** Backend active at `https://admin.etotalsports.com`. Full website design will be provided by the user before frontend build begins.
+- **Backend:** WordPress REST API / Headless integration on Hostinger (`domains/etotalsports.com/public_html/admin/`).
 - **Frontend:** Decoupled modern frontend (Next.js App Router, Tailwind CSS, TypeScript).

@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face{font-family:"Barlow Condensed";font-style:italic;font-weight:800;font-display:swap;src:url(fonts/barlow-condensed-latin-800-italic.woff2) format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-style:italic;font-weight:700;font-display:swap;src:url(fonts/barlow-condensed-latin-700-italic.woff2) format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:800;font-display:swap;src:url(fonts/barlow-condensed-latin-800-normal.woff2) format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/barlow-condensed-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:Barlow;font-weight:400;font-display:swap;src:url(fonts/barlow-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:Barlow;font-weight:500;font-display:swap;src:url(fonts/barlow-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:Barlow;font-weight:600;font-display:swap;src:url(fonts/barlow-latin-600-normal.woff2) format("woff2")}
+:root{--onyx:#0F172A;--volt:#D4FF00;--laser:#2563EB}
+html{scroll-behavior:auto;-webkit-tap-highlight-color:transparent}
+body{background:#fff;color:#0F172A;font-family:Barlow,system-ui,sans-serif;overflow-x:hidden}
+::selection{background:#D4FF00;color:#0F172A}
+.no-scrollbar{scrollbar-width:none}.no-scrollbar::-webkit-scrollbar{display:none}
+.ch{display:inline-block;will-change:transform}
+.line-mask{display:block;overflow:hidden;padding:.06em .12em .1em 0;margin:-.06em -.12em -.1em 0}
+.outline-text{-webkit-text-stroke:2px currentColor;color:transparent}
+.grain::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>")}
+.skew-panel{transform:skewX(-14deg)}
+.word{opacity:.2;transition:none}
+@media (pointer:fine){body.has-cursor,body.has-cursor *{cursor:none!important}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+input[type=range]{accent-color:#0F172A}
