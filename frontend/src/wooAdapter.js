@@ -8,10 +8,37 @@ export const WOO_BASE = (typeof import.meta !== 'undefined' && import.meta.env?.
 
 export async function getProducts({ category } = {}) {
   if (!WOO_BASE) return PRODUCTS;
-  const qs = new URLSearchParams({ per_page: '24', ...(category ? { category } : {}) });
-  const res = await fetch(`${WOO_BASE}/products?${qs}`);
-  if (!res.ok) throw new Error('Woo products ' + res.status);
-  return res.json();
+  try {
+    const qs = new URLSearchParams({ per_page: '24', ...(category ? { category } : {}) });
+    const res = await fetch(`${WOO_BASE}/products?${qs}`);
+    if (!res.ok) return PRODUCTS;
+    const items = await res.json();
+    if (!Array.isArray(items) || items.length === 0) return PRODUCTS;
+
+    const mockMap = new Map(PRODUCTS.map((p) => [p.slug, p]));
+    return items.map((item) => {
+      const mock = mockMap.get(item.slug) || {};
+      return {
+        ...mock,
+        ...item,
+        id: item.id,
+        name: item.name,
+        slug: item.slug,
+        sku: item.sku || mock.sku,
+        art: mock.art || 'shoe',
+        sport: mock.sport || 'running',
+        prices: item.prices || mock.prices,
+        colors: mock.colors || ['onyx', 'volt', 'white'],
+        sizes: mock.sizes || ['S', 'M', 'L', 'XL'],
+        badge: item.on_sale ? 'SALE' : (mock.badge || ''),
+        average_rating: Number(item.average_rating) || mock.average_rating || 4.7,
+        review_count: item.review_count || mock.review_count || 120,
+      };
+    });
+  } catch (err) {
+    console.warn('WooCommerce fetch fallback to local products:', err);
+    return PRODUCTS;
+  }
 }
 
 // POST {WOO_BASE}/cart/add-item { id, quantity, variation: [{attribute, value}] } with Nonce / Cart-Token headers.
