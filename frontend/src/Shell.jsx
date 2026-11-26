@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
-import { Search, Heart, ShoppingBag, Menu, X, Truck, Globe, ChevronRight, ChevronDown, ArrowRight, ArrowUp, Plus, Minus, Trash2, Tag, Check, Lock, Command, CornerDownLeft, Flame, Star, Layers, Mail } from 'lucide-react';
+import { Search, Heart, ShoppingBag, Menu, X, Truck, Globe, ChevronRight, ChevronDown, ArrowRight, ArrowUp, Plus, Minus, Trash2, Tag, Check, Lock, Command, CornerDownLeft, Flame, Star, Layers, Mail, MessageCircle } from 'lucide-react';
 import { useStore, minor, regular, onSale, pct } from './store.jsx';
 import { Logo } from './Logo.jsx';
 import { ProductImage } from './ProductArt.jsx';
@@ -281,6 +281,16 @@ export function Footer() {
             {ok ? <p className="mt-2 flex items-center gap-2 rounded-lg bg-white/10 p-3 text-sm text-volt"><Check size={18} /> You are in. Use WELCOME10 for 10% off.</p> : (
               <div className="mt-2 flex overflow-hidden rounded-full bg-white/10 ring-1 ring-white/20 focus-within:ring-volt"><input id="ets-news" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@email.com" className="min-w-0 flex-1 bg-transparent px-4 py-3 text-sm text-white outline-none placeholder:text-slate-400" /><button className="bg-volt px-5 font-display font-extrabold uppercase italic text-onyx hover:bg-white">Join</button></div>)}
           </form>
+          <div className="mt-6 flex flex-col gap-2 text-xs">
+            <a href="mailto:support@etotalsports.com" className="flex items-center gap-2 text-slate-300 hover:text-volt transition-colors">
+              <Mail size={14} className="text-volt" />
+              <span>support@etotalsports.com</span>
+            </a>
+            <a href="https://wa.me/8801811377577" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 font-semibold transition-colors">
+              <MessageCircle size={14} />
+              <span>WhatsApp: +880 1811-377577</span>
+            </a>
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-8 md:col-span-7 md:grid-cols-3">
           {[['Shop', [['Running', () => goShop({ cat: 'running' })], ['Training', () => goShop({ cat: 'training' })], ['Team Sports', () => goShop({ cat: 'team-sports' })], ['Footwear', () => goShop({ cat: 'footwear' })], ['Accessories', () => goShop({ cat: 'accessories' })]]],

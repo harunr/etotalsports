@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { StoreProvider, useStore } from './store.jsx';
 import { Preloader, Cursor, ScrollProgress, ScrollTrigger } from './fx.jsx';
 import { AnnouncementBar, Header, MobileMenu, CartDrawer, SearchOverlay, QuickView, Footer } from './Shell.jsx';
+import SupportChat from './SupportChat.jsx';
 import { Toasts, Btn } from './ui.jsx';
 import { Home, NewsPage } from './Pages1.jsx';
 import { CartPage, Terms, Privacy, NotFound } from './Pages3.jsx';
@@ -24,6 +25,7 @@ function App() {
       <Preloader /><Cursor /><ScrollProgress />
       <AnnouncementBar /><Header /><Router /><Footer />
       <MobileMenu /><CartDrawer /><SearchOverlay /><QuickView /><Toasts />
+      <SupportChat />
     </StoreProvider>
   );
 }

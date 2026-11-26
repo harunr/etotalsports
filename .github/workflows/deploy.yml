@@ -15,7 +15,18 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Check Deployment Secrets
+        id: check_secrets
+        run: |
+          if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ] || [ -z "${{ secrets.SSH_HOST }}" ]; then
+            echo "::warning::Hostinger deployment secrets (SSH_HOST, SSH_PORT, SSH_USER, SSH_PRIVATE_KEY) are not configured in GitHub repository yet. Skipping Hostinger sync."
+            echo "has_secrets=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_secrets=true" >> $GITHUB_OUTPUT
+          fi
+
       - name: Set up SSH Key
+        if: steps.check_secrets.outputs.has_secrets == 'true'
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
@@ -23,11 +34,13 @@ jobs:
           ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Test SSH Connectivity
+        if: steps.check_secrets.outputs.has_secrets == 'true'
         run: |
           ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo 'Hostinger Connected Successfully'"
 
       - name: Deploy Themes via rsync (Scoped Safe Sync)
+        if: steps.check_secrets.outputs.has_secrets == 'true'
         run: |
           if [ -d "wp-content/themes" ]; then
             rsync -avz --delete \
@@ -38,6 +51,7 @@ jobs:
           fi
 
       - name: Deploy mu-plugins via rsync (Copy-Only, No Delete)
+        if: steps.check_secrets.outputs.has_secrets == 'true'
         run: |
           if [ -d "wp-content/mu-plugins" ]; then
             rsync -avz \
@@ -47,6 +61,7 @@ jobs:
           fi
 
       - name: Purge Hostinger LiteSpeed Cache
+        if: steps.check_secrets.outputs.has_secrets == 'true'
         run: |
           ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "wp --path=domains/etotalsports.com/public_html/admin litespeed-purge all || true"
